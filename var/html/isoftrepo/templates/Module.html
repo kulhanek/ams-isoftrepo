@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" encoding="utf-8">
+    <head>
+        <title>iSoftrepo</title>            
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <script type="text/javascript" src="../scripts/common.js"> </script>
+        <script type="text/javascript" src="../scripts/collapse.js"> </script>        
+        <link rel="stylesheet" href="../styles/main.css"/>
+    </head>
+    <body onload="do_load();">
+        <form action="_SERVERSCRIPTURI" method="get" onsubmit="do_submit();">
+        <ul id="flags">
+             <!--IF HOMELINK-->
+            <li class="nav"><a href="https://devel.ncbr.muni.cz/whitezone/root/index.php?lang=en&amp;action=main&amp;show=overview">Development</a> / <a href="/whitezone/root/index.php?lang=en&amp;action=main
+&amp;show=intro">Infinity</a></li>
+            <!--END IF HOMELINK-->
+            <li><img src="../images/en.png" alt="english flag" />English</li>
+        </ul>  
+        <div id="header">
+            <h1>Infinity - Software and Job Management System</h1>
+            <div><img src="../images/logo.png" alt="Infinity logo" /></div>
+        </div>  
+        <ul id="nav">
+            <li><a id="intro" href="/whitezone/root/index.php?lang=en&amp;action=main&amp;show=intro">Introduction</a></li>
+            <li><a href="/whitezone/wiki/">Documentation</a></li>
+            <li><a class="selected" href="/whitezone/isoftrepo/fcgi-bin/isoftrepo.fcgi">iSoftrepo</a></li>
+            <li><a id="mailman" href="/whitezone/root/index.php?lang=en&amp;action=main&amp;show=mailman">Mailing lists</a></li>
+            <li><a id="code" href="/whitezone/root/index.php?lang=en&amp;action=main&amp;show=code">Code</a></li>
+        </ul>  
+        <div id="menu">
+            <div class="right">
+                <span>Search:</span>
+                <input class="search" type="text" name="search" value=""/>
+            </div>
+            <input type="hidden" name="site"
+                                 value="_SITE"/>
+            <input type="hidden" name="module"
+                                 value="_MODULE"/>
+            <input type="hidden" name="action"
+                                 value="none"/>
+            <input type="button" name="sites_button"
+                                 value="Sites" onclick="do_action('sites');"/>
+            <input type="button" name="info_button"
+                                 value="Site info" onclick="do_action('info');"/>
+            <input type="button" name="categories_button"
+                                 value="Categories" onclick="do_action('categories');"/>
+            <input type="button" name="module_button"
+                                 value="&gt; Module &lt;" onclick="do_action('module');"/>
+        </div>
+        <div id="path">
+            <p>/ <a href="_SERVERSCRIPTURI">All sites</a> /
+                 <a href="_SERVERSCRIPTURI?action=categories&amp;site=_SITE">_SITE</a> /
+                 _MODULE
+            </p>
+        </div>
+        <div id="module">
+            <div class="side">
+                <div class="versions">
+                    <h3>Available versions</h3>
+                    <ul>
+                    <!--DO CYCLE VERSIONS-->
+                        <li class="_CLASS"><a href="_SERVERSCRIPTURI?action=version&amp;site=_SITE&amp;module=_MODVERURL">_MODVER</a></li>
+                    <!--END CYCLE VERSIONS-->
+                    <!--IF SHOWOLD-->
+                        <li class="switch">other versions are available ...</li>
+                    <!--END IF SHOWOLD-->
+                    </ul>
+                    <p>
+                        <!--IF SHOWOLD-->
+                        <input id="show_all" type="checkbox" value="showold" language="javascript" onclick="toggle_visibility();" />
+                        <span>show all versions</span>
+                        <!--END IF SHOWOLD-->
+                    </p>
+                </div>
+                <div class="default">
+                    <h3>Default build</h3>
+                    <ul>
+                        <li>_DEFAULTA<span style="color: #bbbbbb;">:_DEFAULTB</span></li>
+                    </ul>
+                </div>
+                <div class="sites">
+                    <h3>Available for sites</h3>
+                    <ul>
+                        <!--DO CYCLE MSITES-->
+                        <li><a href="_SERVERSCRIPTURI?action=module&amp;site=_MSITE&amp;module=_MODULEURL">_MSITE</a></li>
+                        <!--END CYCLE MSITES-->
+                    </ul>
+                </div>
+                <!--IF ACL-->
+                <div class="acl">
+                    <h3>Access rules</h3>
+                    <ol>
+                        <!--DO CYCLE RULES-->
+                        <li>_ACLRULE</li>
+                        <!--END CYCLE RULES-->
+                        <li>_DEFACL</li>
+                    </ol>
+                    <!--IF EXTRAACL-->
+                    <p>Extra access rules are defined for:</p>
+                    <ul>
+                        <!--DO CYCLE EBUILDS-->
+                        <li><a href="_SERVERSCRIPTURI?action=build&amp;site=_SITE&amp;module=_BUILDURL">_BUILD</a></li>
+                        <!--END CYCLE EBUILDS-->
+                    </ul>
+                    <!--END IF EXTRAACL-->
+                </div>
+                <!--END IF ACL-->
+                <!--IF DEPENDENCIES-->
+                <div class="deps">
+                    <h3>Dependencies</h3>
+                    <table>
+                        <tr>
+                            <th>Type</th><th>Name</th>
+                        </tr>
+                        <!--DO CYCLE DEPS-->
+                        <tr>
+                            <td>_DTYPE</td>
+                            <td>
+                            <!--IF MNAM-->
+                            <a href="_SERVERSCRIPTURI?action=module&amp;site=_SITE&amp;module=_DNAMEURL">_DNAME</a>
+                            <!--END IF MNAM-->
+                            <!--IF MVER-->
+                            <a href="_SERVERSCRIPTURI?action=version&amp;site=_SITE&amp;module=_DNAMEURL:_DVERURL">_DNAME:_DVER</a>
+                            <!--END IF MVER-->
+                            <!--IF MBUILD-->
+                            <a href="_SERVERSCRIPTURI?action=build&amp;site=_SITE&amp;module=_DNAMEURL:_DVERURL:_DARCHURL:_DMODEURL">_DNAME:_DVER:_DARCH:_DMODE</a>
+                            <!--END IF MBUILD-->
+                            </td>
+                        </tr>
+                        <!--END CYCLE DEPS-->
+                    </table>
+                </div>
+                <!--END IF DEPENDENCIES-->
+            </div>
+            <div class="description">
+                <h3>_MODULE</h3>
+                <!--INCLUDE DESCRIPTION-->
+            </div>
+            <br style="clear:both;"/>
+            <br/>
+        </div>
+        <div id="footer">
+            <p>Powered by <b>Advanced Module System</b> _AMSVER<!--INCLUDE MONITORING--></p>
+        </div>
+        </form>
+    </body>
+</html> 

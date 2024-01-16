@@ -1,0 +1,6 @@
+AMS-SRV-8.creator.user
+*.cmake
+CMakeFiles
+Makefile
+CMakeCache.txt
+/bin

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" encoding="utf-8">
+    <head>
+        <title>iSoftrepo</title>            
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <script type="text/javascript" src="../scripts/common.js"> </script>
+        <link rel="stylesheet" href="../styles/main.css"/>
+    </head>
+    <body onload="do_load();">
+        <form action="_SERVERSCRIPTURI" method="get" onsubmit="do_submit();">
+        <ul id="flags">
+             <!--IF HOMELINK-->
+            <li class="nav"><a href="https://devel.ncbr.muni.cz/whitezone/root/index.php?lang=en&amp;action=main&amp;show=overview">Development</a> / <a href="/whitezone/root/index.php?lang=en&amp;action=main
+&amp;show=intro">Infinity</a></li>
+            <!--END IF HOMELINK-->
+            <li><img src="../images/en.png" alt="english flag" />English</li>
+        </ul>  
+        <div id="header">
+            <h1>Infinity - Software and Job Management System</h1>
+            <div><img src="../images/logo.png" alt="Infinity logo" /></div>
+        </div>  
+        <ul id="nav">
+            <li><a id="intro" href="/whitezone/root/index.php?lang=en&amp;action=main&amp;show=intro">Introduction</a></li>
+            <li><a href="/whitezone/wiki/">Documentation</a></li>
+            <li><a class="selected" href="/whitezone/isoftrepo/fcgi-bin/isoftrepo.fcgi">iSoftrepo</a></li>
+            <li><a id="mailman" href="/whitezone/root/index.php?lang=en&amp;action=main&amp;show=mailman">Mailing lists</a></li>
+            <li><a id="code" href="/whitezone/root/index.php?lang=en&amp;action=main&amp;show=code">Code</a></li>
+        </ul>        
+        <div id="menu">
+            <div class="right">
+                <span>Search in all sites:</span>
+                <input class="search" type="text" name="search" value=""/>
+            </div>
+            <input type="hidden" name="action"
+                                 value="none"/>
+            <input type="button" name="sites"
+                                 value="&gt; Sites &lt;" onclick="do_action('sites');"/>
+        </div>
+        <div id="path">
+            <p>/ All sites</p>
+        </div>
+        <div id="sites">
+            <table>
+                <tr>
+                    <td>
+                        <p>
+                            <i>i</i>Softrepo is a web service providing information about installed software packages, which are managed by Advanced Module System (AMS). In AMS terminology, software packages are called modules. At every site, modules are grouped to thematic categories providing a fast way how to select software, which best matches your requirements. Every module is described in details. A short summary, license type, available versions, and links to software manual documentation are provided whenever possible.
+                        </p>
+                        <h3>Please select a site:</h3>
+                        <ul class="groups">
+                            <!--DO CYCLE GROUPS-->
+                            <li class="group"><b>_GROUP</b>
+                                <ul>
+                                    <!--DO CYCLE SITES-->
+                                    <li><a href="_SERVERSCRIPTURI?action=categories&amp;site=_SITE" rel="new">_SITE</a></li>
+                                    <!--END CYCLE SITES-->
+                                </ul>
+                            </li>
+                            <!--END CYCLE GROUPS-->
+                        </ul>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="footer">
+            <p>Powered by <b>Advanced Module System</b> _AMSVER<!--INCLUDE MONITORING--></p>
+        </div>
+        </form>
+    </body>
+</html> 
