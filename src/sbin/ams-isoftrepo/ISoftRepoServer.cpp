@@ -27,13 +27,11 @@
 #include <signal.h>
 #include <XMLElement.hpp>
 #include <XMLParser.hpp>
-#include "prefix.h"
 #include <TemplatePreprocessor.hpp>
 #include <TemplateCache.hpp>
 #include <Template.hpp>
 #include <XMLPrinter.hpp>
 #include <XMLText.hpp>
-#include <AMSGlobalConfig.hpp>
 #include <boost/algorithm/string/replace.hpp>
 
 using namespace std;
@@ -322,7 +320,8 @@ bool CISoftRepoServer::LoadConfig(void)
 {
     CFileName    config_path;
 
-    config_path = CFileName(ETCDIR) / "servers" / "isoftrepo.xml";
+    // FIXME
+    // config_path = CFileName(ETCDIR) / "servers" / "isoftrepo.xml";
 
     CXMLParser xml_parser;
     xml_parser.SetOutputXMLNode(&ServerConfig);
@@ -337,7 +336,8 @@ bool CISoftRepoServer::LoadConfig(void)
 
     // temaplate_dir
     CFileName temp_dir;
-    temp_dir = CFileName(PREFIX) / "var" / "html" / "isoftrepo" / "templates";
+    // FIXME
+    // temp_dir = CFileName(PREFIX) / "var" / "html" / "isoftrepo" / "templates";
 
     TemplateCache.SetTemplatePath(temp_dir);
 
@@ -351,7 +351,8 @@ bool CISoftRepoServer::LoadConfig(void)
     vout << "# AMS root   = " << GetAMSRoot() << endl;
     vout << "#" << endl;
 
-    AMSGlobalConfig.SetAMSRootDir(GetAMSRoot());
+    //FIXME
+    //AMSGlobalConfig.SetAMSRootDir(GetAMSRoot());
 
     vout << "# === [description] ============================================================" << endl;
     vout << "# Location  = " << GetLocationName() << endl;

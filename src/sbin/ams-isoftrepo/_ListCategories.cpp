@@ -24,13 +24,11 @@
 #include <TemplateParams.hpp>
 #include <ErrorSystem.hpp>
 #include <DirectoryEnum.hpp>
-#include "prefix.h"
 #include <AmsUUID.hpp>
 #include <Site.hpp>
-#include <Cache.hpp>
+#include <ModCache.hpp>
 #include <PrintEngine.hpp>
 #include <Utils.hpp>
-#include <AMSGlobalConfig.hpp>
 
 //==============================================================================
 //------------------------------------------------------------------------------

@@ -24,14 +24,13 @@
 #include <TemplateParams.hpp>
 #include <ErrorSystem.hpp>
 #include <DirectoryEnum.hpp>
-#include "prefix.h"
 #include <AmsUUID.hpp>
 #include <Site.hpp>
-#include <Cache.hpp>
+#include <ModCache.hpp>
 #include <PrintEngine.hpp>
 #include <Utils.hpp>
-#include <AMSGlobalConfig.hpp>
-#include <XMLIterator.hpp>
+#include <ModUtils.hpp>
+#include <ModuleController.hpp>
 
 //==============================================================================
 //------------------------------------------------------------------------------
@@ -49,46 +48,26 @@ bool CISoftRepoServer::_Build(CFCGIRequest& request)
     ProcessCommonParams(request,params);
 
     // IDs ------------------------------------------
-    CSmallString site_name;
     CSmallString module_name,module_ver,module_arch,module_mode,modver,build;
-
     CSmallString module = request.Params.GetValue("module");
 
-    CUtils::ParseModuleName(module,module_name,module_ver,module_arch,module_mode);
+    CModUtils::ParseModuleName(module,module_name,module_ver,module_arch,module_mode);
     modver = module_name + ":" + module_ver;
     build = module_name + ":" + module_ver + ":" + module_arch + ":" + module_mode;
 
-    site_name = request.Params.GetValue("site");
-    if( site_name == NULL ) {
-        ES_ERROR("site name is not provided");
-        return(false);         // site name has to be provided
-    }
-
     // populate cache ------------
-    CSmallString site_sid;
-    site_sid = CUtils::GetSiteID(site_name);
+    CSmallString bundle_name = request.Params.GetValue("site");
+    CXMLElement* p_module = NULL;
+    if( bundle_name == NULL ) {
+        ModuleController.LoadBundles(EMBC_SMALL);
+        ModuleController.MergeBundles();
+        p_module = ModCache.GetModule(module_name);
+    } else {
+        // FIXME
 
-    if( site_sid == NULL ) {
-        ES_ERROR("site UUID was not found");
-        return(false);
     }
 
-    AMSGlobalConfig.SetActiveSiteID(site_sid);
-
-    // initialze AMS cache
-    if( Cache.LoadCache(true) == false) {
-        ES_ERROR("unable to load AMS cache");
-        return(false);
-    }
-
-    // get module
-    CXMLElement* p_module = Cache.GetModule(module_name);
-    if( p_module == NULL ) {
-        ES_ERROR("module record was not found");
-        return(false);
-    }
-
-    CXMLElement* p_build = Cache.GetBuild(p_module,module_ver,module_arch,module_mode);
+    CXMLElement* p_build = CModCache::GetBuild(p_module,module_ver,module_arch,module_mode);
     if( p_build == NULL ) {
         CSmallString error;
         error << "build '" << module << "' was not found";
@@ -96,7 +75,7 @@ bool CISoftRepoServer::_Build(CFCGIRequest& request)
         return(false);
     }
 
-    params.SetParam("SITE",site_name);
+    params.SetParam("BUNDLE",bundle_name);
     params.SetParam("MODVER",modver);
     params.SetParam("MODVERURL",CFCGIParams::EncodeString(modver));
     params.SetParam("BUILD",build);
@@ -145,7 +124,7 @@ bool CISoftRepoServer::_Build(CFCGIRequest& request)
 
             params.SetParam("DTYPE",type);
             CSmallString mname,mver,march,mmode;
-            CUtils::ParseModuleName(module,mname,mver,march,mmode);
+            CModUtils::ParseModuleName(module,mname,mver,march,mmode);
 
             params.StartCondition("MNAM",mver == NULL);
                 params.SetParam("DNAME",mname);
@@ -178,15 +157,12 @@ bool CISoftRepoServer::_Build(CFCGIRequest& request)
     params.EndCondition("DEPENDENCIES");
 
     // technical specification -------------------
-    CXMLElement*    p_setup = NULL;
-    if( p_build != NULL ) p_setup = p_build->GetFirstChildElement("setup");
-
-    CXMLIterator    I(p_setup);
-    CXMLElement*    p_sele;
+    CXMLElement*    p_sele = NULL;
+    if( p_build != NULL ) p_sele = p_build->GetChildElementByPath("setup/item");
 
     params.StartCycle("T");
 
-    while( (p_sele = I.GetNextChildElement()) != NULL ) {
+    while( p_sele != NULL ) {
         params.SetParam("TTYPE",p_sele->GetName());
         CSmallString name;
         CSmallString value;
@@ -218,6 +194,8 @@ bool CISoftRepoServer::_Build(CFCGIRequest& request)
         params.SetParam("TOPERATION",operation);
         params.SetParam("TPRIORITY",priority);
         params.NextRun();
+        // FIXME
+        p_sele = p_sele->GetNextSiblingElement("item");
     }
     params.EndCycle("T");
 

@@ -24,7 +24,6 @@
 #include <TemplateParams.hpp>
 #include <ErrorSystem.hpp>
 #include <DirectoryEnum.hpp>
-#include "prefix.h"
 #include <AmsUUID.hpp>
 #include <Site.hpp>
 #include <vector>
@@ -34,7 +33,6 @@
 #include <XMLParser.hpp>
 #include <XMLPrinter.hpp>
 #include <XMLElement.hpp>
-#include <AMSGlobalConfig.hpp>
 
 #include <boost/algorithm/string/split.hpp>
 #include <boost/algorithm/string/trim.hpp>

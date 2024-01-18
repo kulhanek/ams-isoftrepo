@@ -24,7 +24,6 @@
 #include <TemplateParams.hpp>
 #include <ErrorSystem.hpp>
 #include <DirectoryEnum.hpp>
-#include "prefix.h"
 #include <AmsUUID.hpp>
 #include <Site.hpp>
 #include <XMLElement.hpp>

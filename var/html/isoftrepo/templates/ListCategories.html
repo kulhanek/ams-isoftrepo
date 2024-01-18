@@ -11,8 +11,7 @@
         <form action="_SERVERSCRIPTURI" method="get" onsubmit="do_submit();">
         <ul id="flags">
              <!--IF HOMELINK-->
-            <li class="nav"><a href="https://devel.ncbr.muni.cz/whitezone/root/index.php?lang=en&amp;action=main&amp;show=overview">Development</a> / <a href="/whitezone/root/index.php?lang=en&amp;action=main
-&amp;show=intro">Infinity</a></li>
+                <li class="nav"><a href="https://lcc.ncbr.muni.cz/whitezone/root/index.php?lang=en&amp;action=main&amp;show=overview">LCC</a> / <a href="https://lcc.ncbr.muni.cz/whitezone/root/index.php?lang=en&amp;action=main&amp;show=software">Software</a> / <a href="index.php?lang={$lang}&amp;action=main&amp;show=intro">Infinity</a></li>
             <!--END IF HOMELINK-->
             <li><img src="../images/en.png" alt="english flag" />English</li>
         </ul>  
@@ -21,11 +20,11 @@
             <div><img src="../images/logo.png" alt="Infinity logo" /></div>
         </div>  
         <ul id="nav">
-            <li><a id="intro" href="/whitezone/root/index.php?lang=en&amp;action=main&amp;show=intro">Introduction</a></li>
-            <li><a href="/whitezone/wiki/">Documentation</a></li>
+            <li><a id="intro" href="/index.php?lang=en&amp;action=main&amp;show=intro">Introduction</a></li>
+            <li><a href="/wiki94/">Documentation</a></li>
             <li><a class="selected" href="/whitezone/isoftrepo/fcgi-bin/isoftrepo.fcgi">iSoftrepo</a></li>
-            <li><a id="mailman" href="/whitezone/root/index.php?lang=en&amp;action=main&amp;show=mailman">Mailing lists</a></li>
-            <li><a id="code" href="/whitezone/root/index.php?lang=en&amp;action=main&amp;show=code">Code</a></li>
+            <li><a id="mailman" href="/index.php?lang=en&amp;action=main&amp;show=mailman">Mailing lists</a></li>
+            <li><a id="code" href="/index.php?lang=en&amp;action=main&amp;show=code">Code</a></li>
         </ul>   
         <div id="menu">
             <div class="right">
@@ -36,29 +35,19 @@
                 <input type="checkbox" name="include_vers" value="true"
                        onclick="do_action('categories');"/>
                 <!--END IF CHECKED_VERS-->
-                <span>Include versions</span> | <span>Search:</span>
-                <input class="search" type="text" name="search" value=""/>
+                <span>Include versions</span>
             </div>
-            <input type="hidden" name="site"
-                                 value="_SITE"/>
             <input type="hidden" name="action"
                                  value="none"/>
-            <input type="button" name="sites_button"
-                                 value="Sites" onclick="do_action('sites');"/>
-            <input type="button" name="info_button"
-                                 value="Site info" onclick="do_action('info');"/>
             <input type="button" name="categories_button"
                                  value="&gt; Categories &lt;" onclick="do_action('categories');"/>
-        </div>
-        <div id="path">
-            <p>/ <a href="_SERVERSCRIPTURI">All sites</a> / _SITE</p>
         </div>
         <div id="categories">
             <!--DO CYCLE CATEGORIES-->
             <h3>_CATEGORY</h3>
             <ul>
                 <!--DO CYCLE MODULES-->
-                <li><a href="_SERVERSCRIPTURI?action=_ACTION&amp;site=_SITE&amp;module=_MODULEURL">_MODULE</a></li>
+                <li><a href="_SERVERSCRIPTURI?action=_ACTION&amp;module=_MODULEURL">_MODULE</a></li>
                 <!--END CYCLE MODULES-->
             </ul>
             <div style="clear:both; padding: 0px; padding-top: 10px;"><!-- this comment is important--></div>

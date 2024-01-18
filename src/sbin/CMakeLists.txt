@@ -3,6 +3,5 @@
 # ==============================================================================
 
 ADD_SUBDIRECTORY(ams-isoftrepo)
-ADD_SUBDIRECTORY(ams-isoftstat)
 
 

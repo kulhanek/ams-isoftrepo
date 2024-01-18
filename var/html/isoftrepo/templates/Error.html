@@ -11,8 +11,7 @@
         <form action="_SERVERSCRIPTURI" method="get" onsubmit="do_submit();">
         <ul id="flags">
              <!--IF HOMELINK-->
-            <li class="nav"><a href="https://devel.ncbr.muni.cz/whitezone/root/index.php?lang=en&amp;action=main&amp;show=overview">Development</a> / <a href="/whitezone/root/index.php?lang=en&amp;action=main
-&amp;show=intro">Infinity</a></li>
+                <li class="nav"><a href="https://lcc.ncbr.muni.cz/whitezone/root/index.php?lang=en&amp;action=main&amp;show=overview">LCC</a> / <a href="https://lcc.ncbr.muni.cz/whitezone/root/index.php?lang=en&amp;action=main&amp;show=software">Software</a> / <a href="index.php?lang={$lang}&amp;action=main&amp;show=intro">Infinity</a></li>
             <!--END IF HOMELINK-->
             <li><img src="../images/en.png" alt="english flag" />English</li>
         </ul>  
@@ -21,23 +20,14 @@
             <div><img src="../images/logo.png" alt="Infinity logo" /></div>
         </div>  
         <ul id="nav">
-            <li><a id="intro" href="/whitezone/root/index.php?lang=en&amp;action=main&amp;show=intro">Introduction</a></li>
-            <li><a href="/whitezone/wiki/">Documentation</a></li>
+            <li><a id="intro" href="/index.php?lang=en&amp;action=main&amp;show=intro">Introduction</a></li>
+            <li><a href="/wiki94/">Documentation</a></li>
             <li><a class="selected" href="/whitezone/isoftrepo/fcgi-bin/isoftrepo.fcgi">iSoftrepo</a></li>
-            <li><a id="mailman" href="/whitezone/root/index.php?lang=en&amp;action=main&amp;show=mailman">Mailing lists</a></li>
-            <li><a id="code" href="/whitezone/root/index.php?lang=en&amp;action=main&amp;show=code">Code</a></li>
+            <li><a id="mailman" href="/index.php?lang=en&amp;action=main&amp;show=mailman">Mailing lists</a></li>
+            <li><a id="code" href="/index.php?lang=en&amp;action=main&amp;show=code">Code</a></li>
         </ul>  
         <div id="menu">
-            <div class="right">
-                <span>Search:</span>
-                <input type="text" name="search" value="" onclick="do_action('search')"/>
-            </div>
             <input type="hidden" name="action" value="none"/>
-            <input type="button" name="sites" value="Sites" onclick="do_action('sites')"/>
-            <!-- <input type="button" name="help" value="&gt; Help &lt;" onclick="do_action('help')"/> -->
-        </div>
-        <div id="path">
-            <p>/ Error</p>
         </div>
         <div id="error">
             <br/>
