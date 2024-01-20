@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <server templates="/opt/ams-isoftrepo/9.0/var/html/isoftrepo/templaes"/>
+    <ams root="/software/ncbr/softmods/8.0"/>
+    <watcher enabled="true" logname="/tmp/isoftrepo-9.0.log"/>
+
+    <monitoring>, monitored by <a href="https://matomo.org/">Matomo</a>.
+<!-- Matomo -->
+<!-- End Matomo Code -->
+    </monitoring>
+</config>
