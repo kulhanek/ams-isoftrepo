@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
-    <server templates="/opt/ams-isoftrepo/9.0/var/html/isoftrepo/templaes"/>
+    <server port="32696" templates="/opt/ams-isoftrepo/9.0/var/html/isoftrepo/templates"/>
     <ams root="/software/ncbr/softmods/8.0"/>
     <watcher enabled="true" logname="/tmp/isoftrepo-9.0.log"/>
 

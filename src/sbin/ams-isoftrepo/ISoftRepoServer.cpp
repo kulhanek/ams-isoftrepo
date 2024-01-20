@@ -352,7 +352,7 @@ int CISoftRepoServer::GetPortNumber(void)
 
 const CFileName CISoftRepoServer::GetTemplatePath(void)
 {
-    CFileName temp_dir = "/opt/ams-isoftrepo/9.0/var/html/isoftrepo/template";
+    CFileName temp_dir = "/opt/ams-isoftrepo/9.0/var/html/isoftrepo/templates";
 
     CXMLElement* p_ele = ServerConfig.GetChildElementByPath("config/server");
     if( p_ele == NULL ) {
