@@ -201,6 +201,7 @@ a.hover{
 /* ================================================== */
 
 #footer {
+    clear: left;
     text-align: center;
     margin: 5px 0px;
     padding: 5px 5px;

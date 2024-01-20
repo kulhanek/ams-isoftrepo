@@ -72,7 +72,7 @@ bool CISoftRepoServer::_Version(CFCGIRequest& request)
 
     // list of builds ----------------------------
     std::list<CSmallString>   builds;
-    CModCache::GetModuleBuildsSorted(p_module,builds);
+    CModCache::GetModuleBuildsSorted(p_module,module_ver,builds);
 
     params.StartCycle("BUILDS");
     for(CSmallString bld_name: builds){
