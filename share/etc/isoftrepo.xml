@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
     <server port="32696" templates="/opt/ams-isoftrepo/9.0/var/html/isoftrepo/templates"/>
-    <ams root="/software/ncbr/softmods/8.0"/>
+
+    <ams name="bioinf,common,core,devel,docking,gpu,ncbr,protpred,qmsoft,visual,lcc,strdet,rova,sbmm"
+         path="/software/ncbr/softrepo"/>
+
     <watcher enabled="true" logname="/tmp/isoftrepo-9.0.log"/>
 
     <monitoring>, monitored by <a href="https://matomo.org/">Matomo</a>.
