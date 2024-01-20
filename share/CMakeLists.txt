@@ -7,13 +7,13 @@
 INSTALL(DIRECTORY
             etc
         DESTINATION
-            share/etc
+            share/
         )
 
 INSTALL(DIRECTORY
             systemd
         DESTINATION
-            share/systemd
+            share/
         )
 
 
