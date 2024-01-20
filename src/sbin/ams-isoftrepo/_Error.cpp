@@ -43,9 +43,6 @@ bool CISoftRepoServer::_Error(CFCGIRequest& request)
 
     ProcessCommonParams(request,params);
 
-    // description
-    params.SetParam("LOCATION",GetLocationName());
-
     if( params.Finalize() == false ) {
         ES_ERROR("unable to prepare parameters");
         return(false);

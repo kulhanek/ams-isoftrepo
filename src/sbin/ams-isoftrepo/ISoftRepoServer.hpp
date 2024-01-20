@@ -54,7 +54,7 @@ private:
     CTerminalStr        Console;
     CVerboseStr         vout;
     CServerWatcher      Watcher;
-    CFileName           BundleName;
+    CSmallString        BundleName;
     CFileName           BundlePath;
 
     static  void CtrlCSignalHandler(int signal);
@@ -85,11 +85,6 @@ private:
     // ams bundles
     const CSmallString  GetBundleName(void);
     const CFileName     GetBundlePath(void);
-
-    // description
-    const CSmallString  GetLocationName(void);
-    const CSmallString  GetHomeURL(void);
-    const CSmallString  GetHomeText(void);
 
     // monitoring
     CXMLElement*        GetMonitoringIFrame(void);

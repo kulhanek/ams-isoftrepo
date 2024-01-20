@@ -1,3 +1,11 @@
+share/CMakeLists.txt
+share/etc/isoftrepo.xml
+share/systemd/ams-isoftrepo-9.0.service
+var/html/isoftrepo/templates/Version.html
+var/html/isoftrepo/templates/Module.html
+var/html/isoftrepo/templates/ListCategories.html
+var/html/isoftrepo/templates/Error.html
+var/html/isoftrepo/templates/Build.html
 CMakeLists.txt
 src/CMakeLists.txt
 src/sbin/CMakeLists.txt

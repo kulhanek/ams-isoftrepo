@@ -93,7 +93,7 @@ bool CISoftRepoServer::_Module(CFCGIRequest& request)
 
     // populate cache ------------
     CModuleController mod_controller;
-    mod_controller.InitModuleControllerConfig();
+    mod_controller.InitModuleControllerConfig(BundleName,BundlePath);
     mod_controller.LoadBundles(EMBC_BIG);
     CModCache mod_cache;
     mod_controller.MergeBundles(mod_cache);

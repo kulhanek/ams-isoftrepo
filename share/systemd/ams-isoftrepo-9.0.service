@@ -1,0 +1,10 @@
+[Unit]
+Description=AMS iSoftRepo server
+
+[Service]
+ExecStart=/opt/ams-isoftrepo/9.0/sbin/ams-isoftrepo /opt/ams-isoftrepo/9.0/etc/isoftrepo.xml
+User=isoftrepo
+UMask=077
+
+[Install]
+WantedBy=multi-user.target

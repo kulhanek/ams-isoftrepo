@@ -269,18 +269,6 @@ bool CISoftRepoServer::ProcessCommonParams(CFCGIRequest& request,
     // FCGI setup
     template_params.SetParam("SERVERSCRIPTURI",server_script_uri);
 
-    // description
-    template_params.SetParam("LOCATION",GetLocationName());
-
-    template_params.StartCondition("HOMELINK",GetHomeURL() != NULL);
-
-    if( GetHomeURL() != NULL ) {
-        template_params.SetParam("HOMEURL",GetHomeURL());
-        template_params.SetParam("HOMEDESC",GetHomeText());
-    }
-
-    template_params.EndCondition("HOMELINK");
-
     return(true);
 }
 
@@ -334,12 +322,6 @@ bool CISoftRepoServer::LoadConfig(void)
     vout << "# Path      = " << BundlePath << endl;
     vout << "#" << endl;
 
-    vout << "# === [description] ============================================================" << endl;
-    vout << "# Location  = " << GetLocationName() << endl;
-    vout << "# Home URL  = " << GetHomeURL() << endl;
-    vout << "# Home Text = " << GetHomeText() << endl;
-    vout << "#" << endl;
-
     CXMLElement* p_watcher = ServerConfig.GetChildElementByPath("config/watcher");
     Watcher.ProcessWatcherControl(vout,p_watcher);
     vout << "#" << endl;
@@ -353,7 +335,7 @@ bool CISoftRepoServer::LoadConfig(void)
 
 int CISoftRepoServer::GetPortNumber(void)
 {
-    int setup = 32597;
+    int setup = 32696;
     CXMLElement* p_ele = ServerConfig.GetChildElementByPath("config/server");
     if( p_ele == NULL ) {
         ES_ERROR("unable to open config path");
@@ -416,61 +398,6 @@ const CFileName CISoftRepoServer::GetBundlePath(void)
         return(path);
     }
     return(path);
-}
-
-//==============================================================================
-//------------------------------------------------------------------------------
-//==============================================================================
-
-const CSmallString CISoftRepoServer::GetLocationName(void)
-{
-    CSmallString setup;
-    CXMLElement* p_ele = ServerConfig.GetChildElementByPath("config/description");
-    if( p_ele == NULL ) {
-        ES_ERROR("unable to open config/description path");
-        return(setup);
-    }
-    if( p_ele->GetAttribute("location",setup) == false ) {
-        ES_ERROR("unable to get location item");
-        return(setup);
-    }
-    return(setup);
-}
-
-//------------------------------------------------------------------------------
-
-const CSmallString CISoftRepoServer::GetHomeURL(void)
-{
-    CSmallString setup;
-    CXMLElement* p_ele = ServerConfig.GetChildElementByPath("config/home");
-    if( p_ele == NULL ) {
-        ES_ERROR("unable to open config/home path");
-        return(setup);
-    }
-    if( p_ele->GetAttribute("url",setup) == false ) {
-        ES_ERROR("unable to get url item");
-        return(setup);
-    }
-    return(setup);
-}
-
-//------------------------------------------------------------------------------
-
-const CSmallString CISoftRepoServer::GetHomeText(void)
-{
-    CSmallString name;
-    CXMLElement* p_ele = ServerConfig.GetChildElementByPath("config/home");
-    if( p_ele == NULL ) {
-        ES_ERROR("unable to open config/home path");
-        return(name);
-    }
-    CXMLText* p_text = p_ele->GetFirstChildText();
-    if( p_text == NULL ) {
-        ES_ERROR("unable to get text from element");
-        return(name);
-    }
-    name = p_text->GetText();
-    return(name);
 }
 
 //------------------------------------------------------------------------------

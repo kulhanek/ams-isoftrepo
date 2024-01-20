@@ -5,3 +5,7 @@ doc
 src/sbin/ams-isoftrepo
 src
 src/sbin
+var/html/isoftrepo/templates
+share/etc
+share/systemd
+share
