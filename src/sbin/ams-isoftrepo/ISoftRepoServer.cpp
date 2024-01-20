@@ -166,18 +166,8 @@ bool CISoftRepoServer::AcceptRequest(void)
 
     bool result = false;
 
-    // list sites ----------------------------------
-    if( (action == NULL) || (action == "sites") ) {
-        result = _ListSites(request);
-    }
-
-    // site info -----------------------------------
-    if( action == "info" ) {
-        result = _SiteInfo(request);
-    }
-
     // list categories -----------------------------
-    if( action == "categories" ) {
+    if( (action == NULL) || (action == "categories") ) {
         result = _ListCategories(request);
     }
 
@@ -194,11 +184,6 @@ bool CISoftRepoServer::AcceptRequest(void)
     // build -----------------------------
     if( action == "build" ) {
         result = _Build(request);
-    }
-
-    // search -----------------------------
-    if( action == "search" ) {
-        result = _Search(request);
     }
 
     // error handle -----------------------
@@ -318,10 +303,7 @@ void CISoftRepoServer::CtrlCSignalHandler(int signal)
 
 bool CISoftRepoServer::LoadConfig(void)
 {
-    CFileName    config_path;
-
-    // FIXME
-    // config_path = CFileName(ETCDIR) / "servers" / "isoftrepo.xml";
+    CFileName config_path =  Options.GetArgConfigFile();
 
     CXMLParser xml_parser;
     xml_parser.SetOutputXMLNode(&ServerConfig);
@@ -334,25 +316,23 @@ bool CISoftRepoServer::LoadConfig(void)
         return(false);
     }
 
-    // temaplate_dir
-    CFileName temp_dir;
-    // FIXME
-    // temp_dir = CFileName(PREFIX) / "var" / "html" / "isoftrepo" / "templates";
-
+    CFileName temp_dir = GetTemplatePath();
     TemplateCache.SetTemplatePath(temp_dir);
 
     vout << "#" << endl;
     vout << "# === [server] =================================================================" << endl;
     vout << "# FCGI Port  = " << GetPortNumber() << endl;
+    vout << "# Templates  = " << temp_dir << endl;
     vout << "#" << endl;
 
-    vout << "#" << endl;
-    vout << "# === [ams] ====================================================================" << endl;
-    vout << "# AMS root   = " << GetAMSRoot() << endl;
-    vout << "#" << endl;
+    BundleName = GetBundleName();
+    BundlePath = GetBundlePath();
 
-    //FIXME
-    //AMSGlobalConfig.SetAMSRootDir(GetAMSRoot());
+    vout << "#" << endl;
+    vout << "# === [ams-bundles] ============================================================" << endl;
+    vout << "# Name      = " << BundleName << endl;
+    vout << "# Path      = " << BundlePath << endl;
+    vout << "#" << endl;
 
     vout << "# === [description] ============================================================" << endl;
     vout << "# Location  = " << GetLocationName() << endl;
@@ -363,10 +343,6 @@ bool CISoftRepoServer::LoadConfig(void)
     CXMLElement* p_watcher = ServerConfig.GetChildElementByPath("config/watcher");
     Watcher.ProcessWatcherControl(vout,p_watcher);
     vout << "#" << endl;
-
-    vout << "# === [internal] ===============================================================" << endl;
-    vout << "# Templates = " << temp_dir << endl;
-    vout << "" << endl;
 
     return(true);
 }
@@ -384,7 +360,7 @@ int CISoftRepoServer::GetPortNumber(void)
         return(setup);
     }
     if( p_ele->GetAttribute("port",setup) == false ) {
-        ES_ERROR("unable to get setup item");
+        ES_ERROR("unable to get port value");
         return(setup);
     }
     return(setup);
@@ -392,19 +368,54 @@ int CISoftRepoServer::GetPortNumber(void)
 
 //------------------------------------------------------------------------------
 
-const CSmallString CISoftRepoServer::GetAMSRoot(void)
+const CFileName CISoftRepoServer::GetTemplatePath(void)
 {
-    CSmallString root;
+    CFileName temp_dir = "/opt/ams-isoftrepo/9.0/var/html/isoftrepo/template";
+
+    CXMLElement* p_ele = ServerConfig.GetChildElementByPath("config/server");
+    if( p_ele == NULL ) {
+        ES_ERROR("unable to open config path");
+        return(temp_dir);
+    }
+    if( p_ele->GetAttribute("templates",temp_dir) == false ) {
+        ES_ERROR("unable to get templates values");
+        return(temp_dir);
+    }
+    return(temp_dir);
+}
+
+//------------------------------------------------------------------------------
+
+const CSmallString CISoftRepoServer::GetBundleName(void)
+{
+    CSmallString name;
     CXMLElement* p_ele = ServerConfig.GetChildElementByPath("config/ams");
     if( p_ele == NULL ) {
         ES_ERROR("unable to open config/ams path");
-        return(root);
+        return(name);
     }
-    if( p_ele->GetAttribute("root",root) == false ) {
-        ES_ERROR("unable to get root item");
-        return(root);
+    if( p_ele->GetAttribute("name",name) == false ) {
+        ES_ERROR("unable to get name item");
+        return(name);
     }
-    return(root);
+    return(name);
+}
+
+//------------------------------------------------------------------------------
+
+const CFileName CISoftRepoServer::GetBundlePath(void)
+{
+    CSmallString path;
+    CXMLElement* p_ele = ServerConfig.GetChildElementByPath("config/ams");
+    if( p_ele == NULL ) {
+        ES_ERROR("unable to open config/ams path");
+        return(path);
+    }
+    if( p_ele->GetAttribute("path",path) == false ) {
+        ES_ERROR("unable to get path item");
+        return(path);
+    }
+    return(path);
 }
 
 //==============================================================================

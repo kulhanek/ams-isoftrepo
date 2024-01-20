@@ -42,6 +42,8 @@ public:
 
     // list of all options and arguments ------------------------------------------
     CSO_LIST_BEGIN
+    // arguments ----------------------------
+    CSO_ARG(CSmallString,ConfigFile)
     // options ------------------------------
     CSO_OPT(bool,Help)
     CSO_OPT(bool,Version)
@@ -49,6 +51,13 @@ public:
     CSO_LIST_END
 
     CSO_MAP_BEGIN
+    // description of arguments ---------------------------------------------------
+    CSO_MAP_ARG(CSmallString,                   /* argument type */
+                ConfigFile,                          /* argument name */
+                NULL,                           /* default value */
+                true,                           /* is argument mandatory */
+                "configfile",                        /* parametr name */
+                "the name of the configuration file\n")   /* argument description */
     // description of options -----------------------------------------------------
     CSO_MAP_OPT(bool,                           /* option type */
                 Verbose,                        /* option name */

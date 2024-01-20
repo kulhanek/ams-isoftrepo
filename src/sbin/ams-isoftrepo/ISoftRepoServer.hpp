@@ -54,21 +54,18 @@ private:
     CTerminalStr        Console;
     CVerboseStr         vout;
     CServerWatcher      Watcher;
+    CFileName           BundleName;
+    CFileName           BundlePath;
 
     static  void CtrlCSignalHandler(int signal);
 
     virtual bool AcceptRequest(void);
 
     // web pages handlers ------------------------------------------------------
-    bool _ListSites(CFCGIRequest& request);
-    bool _SiteInfo(CFCGIRequest& request);
     bool _ListCategories(CFCGIRequest& request);
     bool _Module(CFCGIRequest& request);
     bool _Version(CFCGIRequest& request);
     bool _Build(CFCGIRequest& request);
-    bool _Search(CFCGIRequest& request);
-    bool _SearchSites(CFCGIRequest& request);
-    bool _SearchSite(CFCGIRequest& request);
     bool _Error(CFCGIRequest& request);
 
     bool ProcessCommonParams(CFCGIRequest& request,
@@ -82,18 +79,20 @@ private:
     bool LoadConfig(void);
 
     // fcgi server
-    int                GetPortNumber(void);
+    int                 GetPortNumber(void);
+    const CFileName     GetTemplatePath(void);
 
-    // ams root
-    const CSmallString GetAMSRoot(void);
+    // ams bundles
+    const CSmallString  GetBundleName(void);
+    const CFileName     GetBundlePath(void);
 
     // description
-    const CSmallString GetLocationName(void);
-    const CSmallString GetHomeURL(void);
-    const CSmallString GetHomeText(void);
+    const CSmallString  GetLocationName(void);
+    const CSmallString  GetHomeURL(void);
+    const CSmallString  GetHomeText(void);
 
     // monitoring
-    CXMLElement* GetMonitoringIFrame(void);
+    CXMLElement*        GetMonitoringIFrame(void);
 };
 
 //------------------------------------------------------------------------------

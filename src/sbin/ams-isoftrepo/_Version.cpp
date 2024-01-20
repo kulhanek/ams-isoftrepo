@@ -23,35 +23,15 @@
 #include "ISoftRepoServer.hpp"
 #include <TemplateParams.hpp>
 #include <ErrorSystem.hpp>
-#include <DirectoryEnum.hpp>
-#include "prefix.h"
-#include <AmsUUID.hpp>
-#include <Site.hpp>
-#include <Cache.hpp>
-#include <PrintEngine.hpp>
-#include <Utils.hpp>
-#include <AMSGlobalConfig.hpp>
-#include <XMLIterator.hpp>
+#include <ModCache.hpp>
+#include <ModUtils.hpp>
+#include <ModuleController.hpp>
 
 using namespace std;
 
 //==============================================================================
 //------------------------------------------------------------------------------
 //==============================================================================
-
-bool SortBuildsByMode(const CSmallString& left,const CSmallString& right)
-{
-    CSmallString left_arch = CUtils::GetModuleArch(left);
-    CSmallString right_arch = CUtils::GetModuleArch(right);
-    if( strcmp(left_arch,right_arch) < 0 ) return(true);
-    if( strcmp(left_arch,right_arch) > 0 ) return(false);
-
-    CSmallString left_mode = CUtils::GetModuleMode(left);
-    CSmallString right_mode = CUtils::GetModuleMode(right);
-    return( strcmp(left_mode,right_mode) <= 0 );
-}
-
-//------------------------------------------------------------------------------
 
 bool CISoftRepoServer::_Version(CFCGIRequest& request)
 {
@@ -65,19 +45,11 @@ bool CISoftRepoServer::_Version(CFCGIRequest& request)
     ProcessCommonParams(request,params);
 
     // IDs ------------------------------------------
-    CSmallString site_name;
     CSmallString module_name,module_ver,modver;
 
-    site_name = request.Params.GetValue("site");
-    if( site_name == NULL ) {
-        ES_ERROR("site name is not provided");
-        return(false);         // site name has to be provided
-    }
-
-    CUtils::ParseModuleName(request.Params.GetValue("module"),module_name,module_ver);
+    CModUtils::ParseModuleName(request.Params.GetValue("module"),module_name,module_ver);
     modver = module_name + ":" + module_ver;
 
-    params.SetParam("SITE",site_name);
     params.SetParam("MODVER",modver);
     params.SetParam("MODVERURL",CFCGIParams::EncodeString(modver));
     params.SetParam("MODULE",module_name);
@@ -85,65 +57,28 @@ bool CISoftRepoServer::_Version(CFCGIRequest& request)
     params.SetParam("VERSION",module_ver);
 
     // populate cache ------------
-    CSmallString site_sid;
-    site_sid = CUtils::GetSiteID(site_name);
-
-    if( site_sid == NULL ) {
-        ES_ERROR("site UUID was not found");
-        return(false);
-    }
-
-    AMSGlobalConfig.SetActiveSiteID(site_sid);
-
-    // initialze AMS cache
-    if( Cache.LoadCache(true) == false) {
-        ES_ERROR("unable to load AMS cache");
-        return(false);
-    }
+    CModuleController mod_controller;
+    mod_controller.InitModuleControllerConfig();
+    mod_controller.LoadBundles(EMBC_SMALL);
+    CModCache mod_cache;
+    mod_controller.MergeBundles(mod_cache);
 
     // get module
-    CXMLElement* p_module = Cache.GetModule(module_name);
+    CXMLElement* p_module = mod_cache.GetModule(module_name);
     if( p_module == NULL ) {
         ES_ERROR("module record was not found");
         return(false);
     }
 
     // list of builds ----------------------------
-    CSmallString name;
-    p_module->GetAttribute("name",name);
-
-    CXMLElement*            p_rels = p_module->GetFirstChildElement("builds");
-    CXMLElement*            p_tele;
-    CXMLIterator            K(p_rels);
-
     std::list<CSmallString>   builds;
-
-    while( (p_tele = K.GetNextChildElement("build")) != NULL ) {
-        CSmallString lver,larch,lmode;
-        p_tele->GetAttribute("ver",lver);
-        p_tele->GetAttribute("arch",larch);
-        p_tele->GetAttribute("mode",lmode);
-
-        if( module_ver == lver ) {
-            CSmallString full_name;
-            full_name = module_name + ":" + lver + ":" + larch + ":" + lmode;
-            builds.push_back(full_name);
-        }
-    }
-
-    builds.sort(SortBuildsByMode);
-
-    std::list<CSmallString>::iterator   it = builds.begin();
-    std::list<CSmallString>::iterator   ie = builds.end();
+    CModCache::GetModuleBuildsSorted(p_module,builds);
 
     params.StartCycle("BUILDS");
-
-    while( it != ie ){
-        CSmallString full_name = (*it);
+    for(CSmallString full_name : builds){
         params.SetParam("BUILD",full_name);
         params.SetParam("TBUILD",CFCGIParams::EncodeString(full_name));
         params.NextRun();
-        it++;
     }
     params.EndCycle("BUILDS");
 

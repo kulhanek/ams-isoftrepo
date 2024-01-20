@@ -23,12 +23,7 @@
 #include "ISoftRepoServer.hpp"
 #include <TemplateParams.hpp>
 #include <ErrorSystem.hpp>
-#include <DirectoryEnum.hpp>
-#include <AmsUUID.hpp>
-#include <Site.hpp>
 #include <ModCache.hpp>
-#include <PrintEngine.hpp>
-#include <Utils.hpp>
 #include <ModUtils.hpp>
 #include <ModuleController.hpp>
 
@@ -56,15 +51,18 @@ bool CISoftRepoServer::_Build(CFCGIRequest& request)
     build = module_name + ":" + module_ver + ":" + module_arch + ":" + module_mode;
 
     // populate cache ------------
-    CSmallString bundle_name = request.Params.GetValue("site");
-    CXMLElement* p_module = NULL;
-    if( bundle_name == NULL ) {
-        ModuleController.LoadBundles(EMBC_SMALL);
-        ModuleController.MergeBundles();
-        p_module = ModCache.GetModule(module_name);
-    } else {
-        // FIXME
+    CModuleController mod_controller;
+    mod_controller.InitModuleControllerConfig();
+    mod_controller.LoadBundles(EMBC_SMALL);
+    CModCache mod_cache;
+    mod_controller.MergeBundles(mod_cache);
 
+    CXMLElement* p_module = mod_cache.GetModule(module_name);
+    if( p_module == NULL ) {
+        CSmallString error;
+        error << "module not found '" << module_name << "'";
+        ES_ERROR(error);
+        return(false);
     }
 
     CXMLElement* p_build = CModCache::GetBuild(p_module,module_ver,module_arch,module_mode);
@@ -75,7 +73,6 @@ bool CISoftRepoServer::_Build(CFCGIRequest& request)
         return(false);
     }
 
-    params.SetParam("BUNDLE",bundle_name);
     params.SetParam("MODVER",modver);
     params.SetParam("MODVERURL",CFCGIParams::EncodeString(modver));
     params.SetParam("BUILD",build);

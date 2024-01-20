@@ -23,12 +23,9 @@
 #include "ISoftRepoServer.hpp"
 #include <TemplateParams.hpp>
 #include <ErrorSystem.hpp>
-#include <DirectoryEnum.hpp>
-#include <AmsUUID.hpp>
-#include <Site.hpp>
 #include <ModCache.hpp>
-#include <PrintEngine.hpp>
-#include <Utils.hpp>
+#include <ModUtils.hpp>
+#include <ModuleController.hpp>
 
 //==============================================================================
 //------------------------------------------------------------------------------
@@ -45,38 +42,12 @@ bool CISoftRepoServer::_ListCategories(CFCGIRequest& request)
 
     ProcessCommonParams(request,params);
 
-    // IDs ------------------------------------------
-    CSmallString site_name;
-    site_name = request.Params.GetValue("site");
-    if( site_name == NULL ) {
-        ES_ERROR("site name is not provided");
-        return(false);         // site name has to be provided
-    }
-
-    params.SetParam("SITE",site_name);
-
-    // make list of all available categories and modules ------------
-    CSmallString site_sid;
-    site_sid = CUtils::GetSiteID(site_name);
-
-    if( site_sid == NULL ) {
-        ES_ERROR("site UUID was not found");
-        return(false);
-    }
-
-    AMSGlobalConfig.SetActiveSiteID(site_sid);
-
-    // initialze AMS cache
-    if( Cache.LoadCache() == false) {
-        ES_ERROR("unable to load AMS cache");
-        return(false);
-    }
-
-    // initialze AMS print engine
-    if( PrintEngine.LoadConfig() == false) {
-        ES_ERROR("unable to load print engine config");
-        return(false);
-    }
+    // populate cache ------------
+    CModuleController mod_controller;
+    mod_controller.InitModuleControllerConfig();
+    mod_controller.LoadBundles(EMBC_SMALL);
+    CModCache mod_cache;
+    mod_controller.MergeBundles(mod_cache);
 
     CSmallString tmp;
     bool include_vers;
@@ -92,7 +63,55 @@ bool CISoftRepoServer::_ListCategories(CFCGIRequest& request)
         params.SetParam("ACTION",CSmallString("module"));
     }
 
-    PrintEngine.ListModAvailableModules(params,include_vers);
+// get categories
+    std::list<CSmallString> cats;
+    mod_cache.GetCategories(cats);
+    cats.sort();
+    cats.unique();
+
+    params.StartCycle("CATEGORIES");
+
+// print modules
+    for(CSmallString cat : cats){
+        std::list<CSmallString> mods;
+        mod_cache.GetModules(cat,mods,include_vers);
+        mods.sort();
+        mods.unique();
+        if( mods.empty() ) continue;
+
+        params.SetParam("CATEGORY",cat);
+
+        params.StartCycle("MODULES");
+
+        for(CSmallString mod : mods){
+            params.SetParam("MODULE",mod);
+            params.SetParam("MODULEURL",CFCGIParams::EncodeString(mod));
+            params.NextRun();
+        }
+
+        params.EndCycle("MODULES");
+        params.NextRun();
+    }
+
+    std::list<CSmallString> mods;
+    mod_cache.GetModules("sys",mods,include_vers);
+    mods.sort();
+    mods.unique();
+    if( ! mods.empty() ){
+        params.SetParam("CATEGORY","System & Uncategorized Modules");
+
+        params.StartCycle("MODULES");
+        for(CSmallString mod : mods){
+            params.SetParam("MODULE",mod);
+            params.SetParam("MODULEURL",CFCGIParams::EncodeString(mod));
+            params.NextRun();
+        }
+
+        params.EndCycle("MODULES");
+        params.NextRun();
+    }
+
+    params.EndCycle("CATEGORIES");
 
     if( params.Finalize() == false ) {
         ES_ERROR("unable to prepare parameters");

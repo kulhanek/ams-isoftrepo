@@ -6,15 +6,10 @@
 SET(PROG_SRC
         ISoftRepoOptions.cpp
         ISoftRepoServer.cpp
-       # _ListSites.cpp
-       # _SiteInfo.cpp
-       # _ListCategories.cpp
-       # _Module.cpp
-       # _Version.cpp
+        _ListCategories.cpp
+        _Module.cpp
+        _Version.cpp
         _Build.cpp
-       # _Search.cpp
-       # _SearchSite.cpp
-       # _SearchSites.cpp
         _Error.cpp
         )
 

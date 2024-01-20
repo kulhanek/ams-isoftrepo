@@ -23,16 +23,10 @@
 #include "ISoftRepoServer.hpp"
 #include <TemplateParams.hpp>
 #include <ErrorSystem.hpp>
-#include <DirectoryEnum.hpp>
-#include "prefix.h"
-#include <AmsUUID.hpp>
-#include <Site.hpp>
-#include <Cache.hpp>
-#include <PrintEngine.hpp>
-#include <Utils.hpp>
-#include <AMSGlobalConfig.hpp>
+#include <ModCache.hpp>
+#include <ModUtils.hpp>
+#include <ModuleController.hpp>
 #include <vector>
-#include <XMLIterator.hpp>
 #include <boost/shared_ptr.hpp>
 
 //==============================================================================
@@ -75,15 +69,6 @@ bool sort_tokens(const CVerRecord& left,const CVerRecord& right)
     return(false);
 }
 
-//------------------------------------------------------------------------------
-
-typedef boost::shared_ptr<CSite> CSitePtr;
-
-bool SiteOnlyNameCompare(const CSitePtr& left,const CSitePtr& right)
-{
-   return( strcmp(left->GetName(),right->GetName()) < 0 );
-}
-
 //==============================================================================
 //------------------------------------------------------------------------------
 //==============================================================================
@@ -100,40 +85,21 @@ bool CISoftRepoServer::_Module(CFCGIRequest& request)
     ProcessCommonParams(request,params);
 
     // IDs ------------------------------------------
-    CSmallString site_name;
     CSmallString module_name;
 
-    site_name = request.Params.GetValue("site");
-    if( site_name == NULL ) {
-        ES_ERROR("site name is not provided");
-        return(false);         // site name has to be provided
-    }
-
-    CUtils::ParseModuleName(request.Params.GetValue("module"),module_name);
-
-    params.SetParam("SITE",site_name);
+    CModUtils::ParseModuleName(request.Params.GetValue("module"),module_name);
     params.SetParam("MODULE",module_name);
     params.SetParam("MODULEURL",CFCGIParams::EncodeString(module_name));
 
     // populate cache ------------
-    CSmallString site_sid;
-    site_sid = CUtils::GetSiteID(site_name);
-
-    if( site_sid == NULL ) {
-        ES_ERROR("site UUID was not found");
-        return(false);
-    }
-
-    AMSGlobalConfig.SetActiveSiteID(site_sid);
-
-    // initialze AMS cache
-    if( Cache.LoadCache(true) == false) {
-        ES_ERROR("unable to load AMS cache");
-        return(false);
-    }
+    CModuleController mod_controller;
+    mod_controller.InitModuleControllerConfig();
+    mod_controller.LoadBundles(EMBC_BIG);
+    CModCache mod_cache;
+    mod_controller.MergeBundles(mod_cache);
 
     // get module
-    CXMLElement* p_module = Cache.GetModule(module_name);
+    CXMLElement* p_module = mod_cache.GetModule(module_name);
     if( p_module == NULL ) {
         CSmallString error;
         error << "module not found '" << module_name << "'";
@@ -142,17 +108,17 @@ bool CISoftRepoServer::_Module(CFCGIRequest& request)
     }
 
     // module versions ---------------------------
-    CXMLElement*            p_rels = p_module->GetFirstChildElement("builds");
-    CXMLElement*            p_tele;
-    CXMLIterator            K(p_rels);
+    CXMLElement* p_tele = p_module->GetChildElementByPath("builds/build");
     std::list<CVerRecord>   versions;
 
-    while( (p_tele = K.GetNextChildElement("build")) != NULL ) {
+    while( p_tele != NULL ) {
         CVerRecord verrcd;
         verrcd.verindx = 0.0;
         p_tele->GetAttribute("ver",verrcd.version);
         p_tele->GetAttribute("verindx",verrcd.verindx);
         versions.push_back(verrcd);
+
+        p_tele = p_tele->GetNextSiblingElement("build");
     }
 
     versions.sort(sort_tokens);
@@ -184,14 +150,14 @@ bool CISoftRepoServer::_Module(CFCGIRequest& request)
     params.EndCondition("SHOWOLD");
 
     // description --------------------------------
-    CXMLElement* p_doc = Cache.GetModuleDescription(p_module);
+    CXMLElement* p_doc = mod_cache.GetModuleDoc(p_module);
     if( p_doc != NULL ) {
         params.Include("DESCRIPTION",p_doc);
     }
 
     // default -----------------------------------
     CSmallString defa,defb,dver,darch,dpar;
-    Cache.GetModuleDefaults(p_module,dver,darch,dpar);
+    CModCache::GetModuleDefaults(p_module,dver,darch,dpar);
 
     if( darch == NULL ) darch = "auto";
     if( dpar == NULL ) dpar = "auto";
@@ -201,57 +167,6 @@ bool CISoftRepoServer::_Module(CFCGIRequest& request)
 
     params.SetParam("DEFAULTA",defa);
     params.SetParam("DEFAULTB",defb);
-
-    // module sites ------------------------------
-    // make list of all available sites -------------
-    CDirectoryEnum         dir_enum(AMSGlobalConfig.GetAMSRootDir() / "etc" / "sites");
-    CFileName              lsite_sid;
-    std::list<CSitePtr>    sites;
-
-    dir_enum.StartFindFile("{*}");
-
-    while( dir_enum.FindFile(lsite_sid) ) {
-        CAmsUUID    site_id;
-        if( site_id.LoadFromString(lsite_sid) == false ) continue;
-        CSitePtr p_site(new CSite);
-        if( p_site->LoadConfig(lsite_sid) == false ) {
-            continue;
-        }
-        if( p_site->IsSiteVisible() == false ) {
-            continue;
-        }
-        sites.push_back(p_site);
-    }
-    dir_enum.EndFindFile();
-
-    sites.sort(SiteOnlyNameCompare);
-
-    // keep only thos site, where the module is defined
-    std::list<CSitePtr>::iterator sit = sites.begin();
-    std::list<CSitePtr>::iterator sie = sites.end();
-
-    while( sit != sie ){
-        CSitePtr p_site = *sit;
-        CCache lcache;
-        lcache.LoadCache(p_site->GetID());
-        if( lcache.GetModule(module_name) != NULL ){
-            sit++; // keep
-        } else {
-            sit = sites.erase(sit); //remove
-        }
-    }
-
-    sit = sites.begin();
-    sie = sites.end();
-
-    params.StartCycle("MSITES");
-    while( sit != sie ){
-        CSitePtr p_site = *sit;
-        params.SetParam("MSITE",p_site->GetName());
-        params.NextRun();
-        sit++;
-    }
-    params.EndCycle("MSITES");
 
     // acl ---------------------------------------
     bool show_acl = true;
@@ -336,7 +251,7 @@ bool CISoftRepoServer::_Module(CFCGIRequest& request)
 
             params.SetParam("DTYPE",type);
             CSmallString mname,mver,march,mmode;
-            CUtils::ParseModuleName(module,mname,mver,march,mmode);
+            CModUtils::ParseModuleName(module,mname,mver,march,mmode);
 
             params.StartCondition("MNAM",mver == NULL);
                 params.SetParam("DNAME",mname);
