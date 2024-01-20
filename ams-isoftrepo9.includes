@@ -10,3 +10,4 @@ share/etc
 share/systemd
 share
 var/html/isoftrepo/scripts
+var/html/isoftrepo/styles

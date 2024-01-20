@@ -148,76 +148,6 @@ span.white{
 
 /* ================================================== */
 
-#menu {
-    background-color: white;
-    text-align: left;
-    margin: 0px 1px 0px 1px;
-    padding: 2px 0px 4px;
-    border-color: #BBAAFF;
-    border-width: 1px;
-    border-top-style: none;
-    border-bottom-style: solid;
-    border-color : #000066;
-    }
-
-#menu input{
-    background-color : white;
-    margin: 2px 0px 2px 2px;
-    padding: 0px;
-    padding-right: 5px;
-    border : none;
-    border-right-style: solid;
-    border-right-width: 2px;
-    border-right-color : #000066;
-    color: #000066;
-    font-weight: bold;
-    }
-
-#menu a{
-    background-color : white;
-    margin: 2px;
-    padding: 0px;
-    padding-right: 5px;
-    border : none;
-    border-right-style: solid;
-    border-right-width: 2px;
-    border-right-color : #000066;
-    color: #000066;
-    font-weight: bold;
-    }
-
-#menu div.right{
-    margin: 0px;
-    padding: 0px;
-    float: right;
-    }
-
-#menu div.right input{
-    vertical-align: middle;
-    background-color: white;
-    border-style: solid;
-    border-color: black;
-    border-width: 1px;
-    }
-
-#menu input:hover{
-    color: #AA0000;
-    }
-
-#menu input.search{
-    color: black;
-    font-weight: normal;
-    padding: 1px 0px;
-    margin: 1px 0px 2px 1px;
-    }
-
-#menu input.search:hover{
-    color: black;
-    font-weight: normal;
-    }
-
-/* ================================================== */
-
 a{
     text-decoration: none;
     color: blue;
@@ -249,6 +179,24 @@ a.hover{
     padding: 0px 0px 0px 0px;
     text-align: left;
     }
+
+#path p span.right{
+    margin: 0px;
+    padding: 0px;
+    float: right;
+    }
+
+#path p span.right input{
+    vertical-align: middle;
+    background-color: white;
+    border-style: solid;
+    border-color: black;
+    border-width: 1px;
+    }
+
+#path input:hover{
+    color: #AA0000;
+    }
     
 /* ================================================== */
 
@@ -259,159 +207,6 @@ a.hover{
     background-color:   #eaeffa;
     font-size: 75%;
 }
-
-
-/* ================================================== */
-
-#sites {
-    text-align: left;
-    margin: 1px;
-    padding: 0px 0px;
-    min-height: 300px;
-    }
-
-#sites table td{
-    vertical-align: top;
-    }
-
-#sites p{
-    margin-bottom: 0px;
-    margin-top: 0px;
-    text-align: justify;
-    }
-
-#sites h3{
-    margin: 10px 0px;
-    padding: 2px;
-    vertical-align: middle;
-    margin-bottom: 2px;
-    border-bottom-style:solid;
-    border-top-style:solid;
-    border-width: 1px;
-    border-color: orange;
-    background-color: #FFFACD;
-    }
-
-#sites a {
-    padding-left: 20px;
-    }
-
-#sites a:hover {
-    color : red;
-    }
-    
-#sites ul {
-    list-style-position: inside;
-    }
-
-#sites ul a{
-    padding-left: 0px;
-    
-    }
-
-#sites ul p{
-    font-size: 80%;
-    padding-left: 40px;
-    padding-top: 2px;
-    margin-top: 2px;
-    margin-bottom: 5px;
-    }
-
-#sites #news {
-    width: 20em;
-    margin: 0px 0px 10px 10px;
-    padding: 0px 5px 5px 5px;
-    border-width: 1px;
-    border-color: orange;
-    border-style: none solid none solid;
-    float: right;
-    }
-
-#sites #news a {
-    padding-left: 0px;
-    }
-
-#sites #news h3 {
-    margin: 0px;
-    }
-
-#sites #news h4 {
-    margin: 2px 2px 2px 2px;
-    padding: 0px;
-    }
-
-#sites #news p {
-    margin: 2px 2px 10px 20px;
-    font-size: 75%;
-    }
-
-#sites #news p.final {
-    margin-left: 2px;
-    }
-
-#sites ul.groups {
-    padding-left: 0px;
-    margin-left: 0px;
-    }
-
-#sites li.group {
-    float: left;
-    margin: 0px 20px 5px 10px;
-    padding-left: 0px;
-    list-style-type: none;
-    }
-
-/* ================================================== */
-
-#info {
-    min-height: 300px;
-    }
-
-#info table{
-    margin: 5px;
-    text-align: left;
-    }
-
-#info table td{
-    padding-left: 5px;
-    }
-
-#info table td:first-child{
-    padding-left:   40px;
-    }
-
-#info table td.sec{
-    font-weight:        bold;
-    background-color:   #e2e3db;
-    text-align:         left;
-    padding-left:       5px;
-    color:              #666666;
-    }
-
-#info h3,h4{
-    text-align: left;
-    padding: 2px 2px 2px 10px;
-    }
-
-#info h4 {
-    margin-bottom: 5px;
-    }
-
-#info h3{
-    display: none;
-    background-color: #d5ffd5;
-    border-bottom-style: solid;
-    border-top-style: solid;
-    border-color: #aaffaa;
-    border-width: 1px;
-    }
-
-#info p{
-    text-align: justify;
-    margin-top: 2px;
-    padding-left: 10px;
-    padding-right: 10px;
-    }
 
 /* ================================================== */
 

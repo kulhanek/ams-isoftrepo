@@ -4,6 +4,7 @@ share/etc/isoftrepo.xml
 share/systemd/ams-isoftrepo-9.0.service
 var/html/isoftrepo/scripts/collapse.js
 var/html/isoftrepo/scripts/common.js
+var/html/isoftrepo/styles/main.css
 var/html/isoftrepo/templates/Version.html
 var/html/isoftrepo/templates/Module.html
 var/html/isoftrepo/templates/ListCategories.html
