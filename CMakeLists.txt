@@ -146,7 +146,7 @@ ENDIF(NOT DEFINED COMPOSITE_PROJECT)
 # ==============================================================================
 
 ADD_SUBDIRECTORY(src)
-#ADD_SUBDIRECTORY(var)
+ADD_SUBDIRECTORY(var)
 #ADD_SUBDIRECTORY(etc)
 
 

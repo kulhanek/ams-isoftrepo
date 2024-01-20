@@ -1,12 +1,11 @@
 [Unit]
-Description=AMS iSoftrepo Service
+Description=AMS iSoftRepo Service
 
 [Service]
-User=infinity
-Group=lccadm
+User=isoftrepo
 WorkingDirectory=~
 Type=simple
-ExecStart=/opt/ams-servers/8.0/sbin/ams-isoftrepo
+ExecStart=/opt/ams-isoftrepo/9.0/sbin/ams-isoftrepo
 
 [Install]
 WantedBy=multi-user.target
