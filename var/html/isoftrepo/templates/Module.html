@@ -24,19 +24,13 @@
             <li><a class="selected" href="/whitezone/isoftrepo/fcgi-bin/isoftrepo.fcgi">iSoftrepo</a></li>
             <li><a id="mailman" href="/index.php?lang=en&amp;action=main&amp;show=mailman">Mailing lists</a></li>
             <li><a id="code" href="/index.php?lang=en&amp;action=main&amp;show=code">Code</a></li>
-        </ul>  
-        <div id="menu">
+        </ul>
+        <div id="path">
             <input type="hidden" name="module"
                                  value="_MODULE"/>
             <input type="hidden" name="action"
                                  value="none"/>
-            <input type="button" name="categories_button"
-                                 value="Categories" onclick="do_action('categories');"/>
-            <input type="button" name="module_button"
-                                 value="&gt; Module &lt;" onclick="do_action('module');"/>
-        </div>
-        <div id="path">
-            <p>/ _MODULE
+            <p>/ <a href="_SERVERSCRIPTURI?action=categories">Categories</a> / _MODULE
             </p>
         </div>
         <div id="module">

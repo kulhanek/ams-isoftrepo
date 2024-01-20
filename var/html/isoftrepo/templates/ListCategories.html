@@ -24,7 +24,12 @@
             <li><a id="mailman" href="/index.php?lang=en&amp;action=main&amp;show=mailman">Mailing lists</a></li>
             <li><a id="code" href="/index.php?lang=en&amp;action=main&amp;show=code">Code</a></li>
         </ul>   
-        <div id="menu">
+        <div id="path">
+            <input type="hidden" name="module"
+                                 value="_MODULE"/>
+            <input type="hidden" name="action"
+                                 value="none"/>
+            <p>/ Categories </p>
             <div class="right">
                 <!--IF CHECKED_VERS-->
                 <input type="checkbox" checked="checked" name="include_vers"
@@ -35,10 +40,6 @@
                 <!--END IF CHECKED_VERS-->
                 <span>Include versions</span>
             </div>
-            <input type="hidden" name="action"
-                                 value="none"/>
-            <input type="button" name="categories_button"
-                                 value="&gt; Categories &lt;" onclick="do_action('categories');"/>
         </div>
         <div id="categories">
             <!--DO CYCLE CATEGORIES-->

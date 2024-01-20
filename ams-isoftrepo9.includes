@@ -9,3 +9,4 @@ var/html/isoftrepo/templates
 share/etc
 share/systemd
 share
+var/html/isoftrepo/scripts

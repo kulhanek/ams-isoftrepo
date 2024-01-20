@@ -75,7 +75,9 @@ bool CISoftRepoServer::_Version(CFCGIRequest& request)
     CModCache::GetModuleBuildsSorted(p_module,builds);
 
     params.StartCycle("BUILDS");
-    for(CSmallString full_name : builds){
+    for(CSmallString bld_name: builds){
+        CSmallString full_name;
+        full_name << module_name << ":" << bld_name;
         params.SetParam("BUILD",full_name);
         params.SetParam("TBUILD",CFCGIParams::EncodeString(full_name));
         params.NextRun();

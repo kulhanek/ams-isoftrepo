@@ -24,22 +24,13 @@
             <li><a id="mailman" href="/index.php?lang=en&amp;action=main&amp;show=mailman">Mailing lists</a></li>
             <li><a id="code" href="/index.php?lang=en&amp;action=main&amp;show=code">Code</a></li>
         </ul>       
-        <div id="menu">
+        <div id="path">
             <input type="hidden" name="module"
                                  value="_BUILD"/>
             <input type="hidden" name="action"
                                  value="none"/>
-            <input type="button" name="categories_button"
-                                 value="Categories" onclick="do_action('categories');"/>
-            <input type="button" name="module_button"
-                                 value="Module" onclick="do_action('module');"/>
-            <input type="button" name="version_button"
-                                 value="Version" onclick="do_action('version');"/>
-            <input type="button" name="build_button"
-                                 value="&gt; Build &lt;" onclick="do_action('build');"/>
-        </div>
-        <div id="path">
-            <p>/ <a href="_SERVERSCRIPTURI?action=module&amp;module=_MODULEURL">_MODULE</a> /
+            <p>/ <a href="_SERVERSCRIPTURI?action=categories">Categories</a> /
+                 <a href="_SERVERSCRIPTURI?action=module&amp;module=_MODULEURL">_MODULE</a> /
                  <a href="_SERVERSCRIPTURI?action=version&amp;module=_MODVERURL">_MODVER</a> /
                  _BUILD
             </p>
