@@ -1,0 +1,7 @@
+src/sbin/ams-isoftstat
+etc
+doc
+.
+src/sbin/ams-isoftrepo
+src
+src/sbin
