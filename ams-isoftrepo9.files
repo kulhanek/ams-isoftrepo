@@ -1,4 +1,5 @@
 share/CMakeLists.txt
+share/CMakeLists.txt
 share/etc/isoftrepo.xml
 share/systemd/ams-isoftrepo-9.0.service
 var/html/isoftrepo/templates/Version.html
