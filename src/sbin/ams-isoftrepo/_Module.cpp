@@ -109,6 +109,7 @@ bool CISoftRepoServer::_Module(CFCGIRequest& request)
 
     params.SetParam("NBUNDLE",CModCache::GetBundleName(p_module));
     params.SetParam("NMAINTAINER",CModCache::GetBundleMaintainer(p_module));
+    params.SetParam("NCONTACT",CModCache::GetBundleContact(p_module));
 
     // module versions ---------------------------
     CXMLElement* p_tele = p_module->GetChildElementByPath("builds/build");

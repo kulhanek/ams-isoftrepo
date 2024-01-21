@@ -36,6 +36,57 @@
             </p>
         </div>
         <div id="build">
+            <div class="side">
+                <!--IF ACL-->
+                <div class="acl">
+                    <table>
+                        <tr>
+                            <td class="sec">Access rules</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <ol>
+                                    <!--DO CYCLE RULES-->
+                                    <li>_ACLRULE</li>
+                                    <!--END CYCLE RULES-->
+                                    <li>_DEFACL</li>
+                                </ol>
+                            </td>
+                        </tr>
+                        <!--END CYCLE RULES-->
+                    </table>
+                </div>
+                <!--END IF ACL-->
+                <!--IF DEPENDENCIES-->
+                <div class="deps">
+                    <table>
+                        <tr>
+                            <td class="sec" colspan="2">Dependencies</td>
+                        </tr>
+                        <tr>
+                            <th>Type</th><th>Name</th>
+                        </tr>
+                        <!--DO CYCLE DEPS-->
+                        <tr>
+                            <td>_DTYPE</td>
+                            <td>
+                            <!--IF MNAM-->
+                            <a href="_SERVERSCRIPTURI?action=module&amp;amp;module=_DNAMEURL">_DNAME</a>
+                            <!--END IF MNAM-->
+                            <!--IF MVER-->
+                            <a href="_SERVERSCRIPTURI?action=version&amp;amp;module=_DNAMEURL:_DVERURL">_DNAME:_DVER</a>
+                            <!--END IF MVER-->
+                            <!--IF MBUILD-->
+                            <a href="_SERVERSCRIPTURI?action=build&amp;amp;module=_DNAMEURL:_DVERURL:_DARCHURL:_DMODEURL">_DNAME:_DVER:_DARCH:_DMODE</a>
+                            <!--END IF MBUILD-->
+                            </td>
+                        </tr>
+                        <!--END CYCLE DEPS-->
+                    </table>
+                </div>
+                <!--END IF DEPENDENCIES-->
+            </div>
+
             <div class="description">
                 <h3>_BUILD</h3>
                 <table>
@@ -59,54 +110,7 @@
                     </tr>
                 </table>
             </div>
-            <!--IF ACL-->
-            <div class="acl">
-                <table>
-                    <tr>
-                        <td class="sec">Access rules</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <ol>
-                                <!--DO CYCLE RULES-->
-                                <li>_ACLRULE</li>
-                                <!--END CYCLE RULES-->
-                                <li>_DEFACL</li>
-                            </ol>
-                        </td>
-                    </tr>
-                    <!--END CYCLE RULES-->
-                </table>
-            </div>
-            <!--END IF ACL-->
-            <!--IF DEPENDENCIES-->
-            <div class="deps">
-                <table>
-                    <tr>
-                        <td class="sec" colspan="2">Dependencies</td>
-                    </tr>
-                    <tr>
-                        <th>Type</th><th>Name</th>
-                    </tr>
-                    <!--DO CYCLE DEPS-->
-                    <tr>
-                        <td>_DTYPE</td>
-                        <td>
-                        <!--IF MNAM-->
-                        <a href="_SERVERSCRIPTURI?action=module&amp;amp;module=_DNAMEURL">_DNAME</a>
-                        <!--END IF MNAM-->
-                        <!--IF MVER-->
-                        <a href="_SERVERSCRIPTURI?action=version&amp;amp;module=_DNAMEURL:_DVERURL">_DNAME:_DVER</a>
-                        <!--END IF MVER-->
-                        <!--IF MBUILD-->
-                        <a href="_SERVERSCRIPTURI?action=build&amp;amp;module=_DNAMEURL:_DVERURL:_DARCHURL:_DMODEURL">_DNAME:_DVER:_DARCH:_DMODE</a>
-                        <!--END IF MBUILD-->
-                        </td>
-                    </tr>
-                    <!--END CYCLE DEPS-->
-                </table>
-            </div>
-            <!--END IF DEPENDENCIES-->
+
             <div class="tech">
                 <table>
                     <tr>
