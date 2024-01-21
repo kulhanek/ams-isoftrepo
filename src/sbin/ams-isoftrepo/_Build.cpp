@@ -155,7 +155,8 @@ bool CISoftRepoServer::_Build(CFCGIRequest& request)
 
     // technical specification -------------------
     CXMLElement*    p_sele = NULL;
-    if( p_build != NULL ) p_sele = p_build->GetChildElementByPath("setup/item");
+    if( p_build != NULL ) p_sele = p_build->GetFirstChildElement("setup");
+    if( p_sele != NULL ) p_sele = p_sele->GetFirstChildElement();
 
     params.StartCycle("T");
 
@@ -191,8 +192,7 @@ bool CISoftRepoServer::_Build(CFCGIRequest& request)
         params.SetParam("TOPERATION",operation);
         params.SetParam("TPRIORITY",priority);
         params.NextRun();
-        // FIXME
-        p_sele = p_sele->GetNextSiblingElement("item");
+        p_sele = p_sele->GetNextSiblingElement();
     }
     params.EndCycle("T");
 

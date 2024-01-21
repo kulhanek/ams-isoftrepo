@@ -107,6 +107,9 @@ bool CISoftRepoServer::_Module(CFCGIRequest& request)
         return(false);
     }
 
+    params.SetParam("NBUNDLE",CModCache::GetBundleName(p_module));
+    params.SetParam("NMAINTAINER",CModCache::GetBundleMaintainer(p_module));
+
     // module versions ---------------------------
     CXMLElement* p_tele = p_module->GetChildElementByPath("builds/build");
     std::list<CVerRecord>   versions;

@@ -238,7 +238,7 @@ a.hover{
     }
 
 #categories li{
-    min-width: 16em;
+    min-width: 250px;
     }
 
 /* ================================================== */
@@ -277,6 +277,19 @@ a.hover{
 #module .side ol li{
     margin-left: 5px;
     padding-left: 2px;
+    }
+
+#module .bundle {
+    margin-bottom: 10px;
+    }
+
+#module .bundle h3{
+    margin: 0px;
+    padding: 2px;
+    border-bottom-style: solid;
+    border-bottom-width: 2px;
+    color: black;
+    border-color: #808080;
     }
 
 #module .versions{
