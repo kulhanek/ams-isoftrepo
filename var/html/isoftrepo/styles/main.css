@@ -406,37 +406,37 @@ a.hover{
     }
 
 #module .description h1{
-    font-size: 130%;
-    text-align: left;
-    margin: 0px;
-    padding: 2px 2px 2px 0px;
-    }
-
-#module .description h2{
     font-size: 120%;
     text-align: left;
     margin: 0px;
     padding: 2px 2px 2px 0px;
     }
 
+#module .description h2{
+    font-size: 115%;
+    text-align: left;
+    margin-top: 15px;
+    padding: 2px 2px 2px 0px;
+    }
+
 #module .description h3{
     font-size: 110%;
     text-align: left;
-    margin: 0px;
+    margin-top: 15px;
     padding: 2px 2px 2px 0px;
     }
 
 #module .description h4{
-    font-size: 100%;
+    font-size: 105%;
     text-align: left;
-    margin: 10px 0px 0px 0px;
+    margin-top: 15px;
     padding: 2px 2px 2px 0px;
     }
 
 #module .description h5{
     font-size: 100%;
     text-align: left;
-    margin: 10px 0px 0px 0px;
+    margin-top: 15px;
     padding: 2px 2px 2px 0px;
     }
 
@@ -453,7 +453,7 @@ a.hover{
     }
 
 #module .description ul li {
-    margin-left: 30px;
+    margin-left: 50px;
     }
 
 #module pre {
